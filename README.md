@@ -9,12 +9,12 @@ public void mostrarImpacto(ImpactoIA impactoIA) {
         System.out.println("Emissão otimizada: " + impactoIA.getEmissaoOtimizada() + " tCO2");
     }
 
-   public double lerPercentualOtimizacao() {
+    public double lerPercentualOtimizacao() {
         System.out.print("Digite o percentual de otimização (0 a 100): ");
         return scanner.nextDouble();
     }
 
-  public void mostrarMensagem(String mensagem) {
+    public void mostrarMensagem(String mensagem) {
         System.out.println(mensagem);
     }
 }
