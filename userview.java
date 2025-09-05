@@ -53,20 +53,3 @@ public class ImpactoIAView {
             return false;
         }
     }
-
-    public int mostrarMenu() {
-        System.out.println("\n=== Menu ===");
-        System.out.println("1. Ver dados do impacto");
-        System.out.println("2. Aplicar otimização");
-        System.out.println("3. Sair");
-        System.out.print("Escolha uma opção: ");
-        try {
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); 
-            return opcao;
-        } catch (InputMismatchException e) {
-            System.out.println("Opção inválida! Digite um número inteiro.");
-            scanner.nextLine();
-            return -1;
-        }
-    }
