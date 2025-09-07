@@ -1,22 +1,29 @@
-package Model;
+package model;
 
 public class ImpactoIA {
     private String nomeModelo;        
     private double consumoEnergia;     
     private boolean usaEnergiaRenovavel; 
     private String aplicacao;         
-    private double eficiencia;          
+    private double eficiencia;         
 
-    // ---------- Construtor ----------
     public ImpactoIA(String nomeModelo, double consumoEnergia, boolean usaEnergiaRenovavel, String aplicacao) {
         this.nomeModelo = nomeModelo;
         this.consumoEnergia = consumoEnergia;
         this.usaEnergiaRenovavel = usaEnergiaRenovavel;
         this.aplicacao = aplicacao;
-        this.eficiencia = 0; // valor inicial
+        this.eficiencia = 0; 
     }
 
-    // ---------- Getters e Setters ----------
+    public ImpactoIA(String nomeModelo, double consumoEnergia, boolean usaEnergiaRenovavel, String aplicacao, double eficiencia) {
+        this.nomeModelo = nomeModelo;
+        this.consumoEnergia = consumoEnergia;
+        this.usaEnergiaRenovavel = usaEnergiaRenovavel;
+        this.aplicacao = aplicacao;
+        this.eficiencia = eficiencia; 
+    }
+
+ 
     public String getNomeModelo() {
         return nomeModelo;
     }
@@ -33,4 +40,7 @@ public class ImpactoIA {
         this.consumoEnergia = consumoEnergia;
     }
 
-   
+    public boolean isUsaEnergiaRenovavel() {
+        return usaEnergiaRenovavel;
+    }
+  
