@@ -1,54 +1,31 @@
+ package controller;
+
+import model.ImpactoIA;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ImpactoIAController {
-
+public class Controller {
     private ImpactoIA impactoIA;
     private Scanner scanner;
 
-    public ImpactoIAController() {
+    public Controller() {
         scanner = new Scanner(System.in);
     }
 
-    public void iniciar() {
-        System.out.println("=== Sistema de Cálculo de Impacto de IA ===");
+    public void cadastrarImpacto() {
+        try {
+            System.out.print("Digite o nome do modelo: ");
+            String nomeModelo = scanner.nextLine();
 
-        System.out.print("Digite o nome do modelo: ");
-        String nomeModelo = scanner.nextLine();
+            System.out.print("Digite o consumo de energia (kWh): ");
+            double consumoEnergia = scanner.nextDouble();
 
-        System.out.print("Digite a aplicação do modelo: ");
-        String aplicacao = scanner.nextLine();
+            System.out.print("Usa energia renovável? (true/false): ");
+            boolean usaEnergiaRenovavel = scanner.nextBoolean();
 
-        double consumo = 0;
-        while (true) {
-            try {
-                System.out.print("Digite o consumo de energia (kWh): ");
-                consumo = scanner.nextDouble();
-                scanner.nextLine(); // limpar buffer
-                break; // entrada válida, sair do loop
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Por favor, digite um número válido.");
-                scanner.nextLine(); // limpar buffer
-            }
-        }
+            scanner.nextLine(); // limpar buffer
+            System.out.print("Digite a aplicação: ");
+            String aplicacao = scanner.nextLine();
 
-        boolean energiaRenovavel = false;
-        while (true) {
-            try {
-                System.out.print("O modelo usa energia renovável? (true/false): ");
-                energiaRenovavel = scanner.nextBoolean();
-                scanner.nextLine(); // limpar buffer
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Por favor, digite true ou false.");
-                scanner.nextLine(); // limpar buffer
-            }
-        }
-
-        impactoIA = new ImpactoIA(nomeModelo, consumo, energiaRenovavel, aplicacao);
-
-        menu();
-    }
-
-
- 
+            System.out.print("Digite a eficiência (%): ");
+            double eficiencia = scanner.nextDouble();
