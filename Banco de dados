@@ -1,0 +1,48 @@
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha_hash VARCHAR(255) NOT NULL,
+    cargo VARCHAR(50),
+    telefone VARCHAR(20),
+    ativo BOOLEAN DEFAULT TRUE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE fornecedores (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cnpj VARCHAR(18) UNIQUE,
+    contato VARCHAR(100),
+    telefone VARCHAR(20),
+    email VARCHAR(100),
+    endereco TEXT
+);
+
+CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome_empresa VARCHAR(100) NOT NULL,
+    cnpj VARCHAR(18) UNIQUE,
+    setor_atuacao VARCHAR(100),
+    endereco TEXT,
+    telefone VARCHAR(20),
+    email_contato VARCHAR(100),
+    data_registro DATE DEFAULT CURRENT_DATE,
+    usuario_id INT,
+    CONSTRAINT fk_cliente_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE produtos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    tipo_produto VARCHAR(50),
+    viscosidade NUMERIC(7,2),
+    ponto_ebulicao NUMERIC(7,2),
+    condutividade_eletrica NUMERIC(10,5),
+    inflamavel BOOLEAN DEFAULT FALSE,
+    preco_unitario NUMERIC(10,2),
+    data_cadastro DATE DEFAULT CURRENT_DATE,
+    usuario_id INT,
+    CONSTRAINT fk_produto_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
