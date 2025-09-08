@@ -8,7 +8,7 @@
 
         } catch (InputMismatchException e) {
             System.out.println("Erro: valor inválido. Tente novamente.");
-            scanner.nextLine(); // limpa buffer
+            scanner.nextLine(); 
         }
     }
 
