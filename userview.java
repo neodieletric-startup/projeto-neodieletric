@@ -1,3 +1,6 @@
+package view;
+
+import model.ImpactoIA;         
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
