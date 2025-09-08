@@ -1,0 +1,45 @@
+public void setUsaEnergiaRenovavel(boolean usaEnergiaRenovavel) {
+        this.usaEnergiaRenovavel = usaEnergiaRenovavel;
+    }
+
+    public String getAplicacao() {
+        return aplicacao;
+    }
+
+    public void setAplicacao(String aplicacao) {
+        this.aplicacao = aplicacao;
+    }
+
+    public double getEficiencia() {
+        return eficiencia;
+    }
+
+  
+    public double getEmissaoBase() {
+        double fator = usaEnergiaRenovavel ? 0.05 : 0.233; 
+        return consumoEnergia * fator;
+    }
+
+   
+    public double getEmissaoOtimizada() {
+        return getEmissaoBase() * (1 - eficiencia / 100);
+    }
+
+ 
+    public void aplicarOtimizacao(double percentual) {
+        if (percentual >= 0 && percentual <= 100) {
+            this.eficiencia = percentual;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ImpactoIA{" +
+                "nomeModelo='" + nomeModelo + '\'' +
+                ", consumoEnergia=" + consumoEnergia +
+                ", usaEnergiaRenovavel=" + usaEnergiaRenovavel +
+                ", aplicacao='" + aplicacao + '\'' +
+                ", eficiencia=" + eficiencia +
+                '}';
+    }
+}
