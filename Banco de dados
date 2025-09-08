@@ -1,0 +1,137 @@
+DROP TABLE IF EXISTS monitoramento CASCADE;
+DROP TABLE IF EXISTS itens_pedido CASCADE;
+DROP TABLE IF EXISTS pedidos CASCADE;
+DROP TABLE IF EXISTS estoque CASCADE;
+DROP TABLE IF EXISTS instalacoes CASCADE;
+DROP TABLE IF EXISTS data_centers CASCADE;
+DROP TABLE IF EXISTS produtos CASCADE;
+DROP TABLE IF EXISTS clientes CASCADE;
+DROP TABLE IF EXISTS fornecedores CASCADE;
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+
+
+CREATE TABLE data_centers (
+    id SERIAL PRIMARY KEY,
+    cliente_id INT,
+    nome VARCHAR(100),
+    localizacao TEXT,
+    capacidade_mw NUMERIC(10,2),
+    tipo_resfriamento_atual VARCHAR(50),
+    status_implementacao VARCHAR(50),
+    usuario_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE instalacoes (
+    id SERIAL PRIMARY KEY,
+    data_center_id INT,
+    produto_id INT,
+    data_instalacao DATE,
+    volume_usado_litros NUMERIC(10,2),
+    eficiencia_termica NUMERIC(5,2),
+    observacoes TEXT,
+    usuario_id INT,
+    FOREIGN KEY (data_center_id) REFERENCES data_centers(id) ON DELETE CASCADE,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE SET NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE estoque (
+    id SERIAL PRIMARY KEY,
+    produto_id INT,
+    quantidade_litros NUMERIC(10,2),
+    local_armazenamento VARCHAR(100),
+    data_entrada DATE,
+    validade DATE,
+    usuario_id INT,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE pedidos (
+    id SERIAL PRIMARY KEY,
+    cliente_id INT,
+    data_pedido DATE,
+    status_pedido VARCHAR(50),
+    valor_total NUMERIC(10,2),
+    usuario_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE itens_pedido (
+    id SERIAL PRIMARY KEY,
+    pedido_id INT,
+    produto_id INT,
+    quantidade_litros NUMERIC(10,2),
+    preco_unitario NUMERIC(10,2),
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE SET NULL
+);
+
+CREATE TABLE monitoramento (
+    id SERIAL PRIMARY KEY,
+    instalacao_id INT,
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    temperatura_entrada NUMERIC(5,2),
+    temperatura_saida NUMERIC(5,2),
+    consumo_energia_kw NUMERIC(10,2),
+    observacoes TEXT,
+    usuario_id INT,
+    FOREIGN KEY (instalacao_id) REFERENCES instalacoes(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+
+
+
+INSERT INTO usuarios (nome, email, senha_hash, cargo, telefone) VALUES
+('Alice Souza', 'alice@example.com', 'hashsenha1', 'Admin', '11999999999'),
+('Bruno Lima', 'bruno@example.com', 'hashsenha2', 'Técnico', '21988888888');
+
+
+INSERT INTO fornecedores (nome, cnpj, contato, telefone, email, endereco) VALUES
+('Fornecedora Alpha', '12.345.678/0001-99', 'Carlos Alberto', '1133334444', 'carlos@alpha.com', 'Rua das Flores, 123'),
+('Fornecedora Beta', '98.765.432/0001-11', 'Fernanda Dias', '1144445555', 'fernanda@beta.com', 'Av. Central, 456');
+
+
+INSERT INTO clientes (nome_empresa, cnpj, setor_atuacao, endereco, telefone, email_contato, usuario_id) VALUES
+('TechData Solutions', '22.333.444/0001-55', 'TI', 'Rua da Tecnologia, 500', '1132123232', 'contato@techdata.com', 1),
+('InfraCloud Ltda', '66.777.888/0001-99', 'Infraestrutura', 'Av. Digital, 1000', '1143434343', 'suporte@infracloud.com', 2);
+
+
+INSERT INTO produtos (nome, descricao, tipo_produto, viscosidade, ponto_ebulicao, condutividade_eletrica, inflamavel, preco_unitario, usuario_id) VALUES
+('Coolant X', 'Fluido refrigerante para servidores', 'Refrigerante', 3.50, 120.00, 0.00123, FALSE, 150.00, 1),
+('Coolant Y', 'Líquido de alta condutividade térmica', 'Refrigerante', 2.80, 110.00, 0.00234, TRUE, 200.00, 2);
+
+
+INSERT INTO data_centers (cliente_id, nome, localizacao, capacidade_mw, tipo_resfriamento_atual, status_implementacao, usuario_id) VALUES
+(1, 'Data Center São Paulo', 'SP, Brasil', 5.50, 'Ar Condicionado', 'Operacional', 1),
+(2, 'Data Center Rio', 'RJ, Brasil', 3.20, 'Líquido', 'Em construção', 2);
+
+
+INSERT INTO instalacoes (data_center_id, produto_id, data_instalacao, volume_usado_litros, eficiencia_termica, observacoes, usuario_id) VALUES
+(1, 1, '2025-08-01', 120.00, 85.50, 'Instalação concluída sem intercorrências', 1),
+(2, 2, '2025-08-05', 90.00, 80.00, 'Produto inflamável, exigido protocolo extra', 2);
+
+
+INSERT INTO estoque (produto_id, quantidade_litros, local_armazenamento, data_entrada, validade, usuario_id) VALUES
+(1, 500.00, 'Galpão Central', '2025-07-20', '2026-07-20', 1),
+(2, 300.00, 'Depósito Secundário', '2025-07-25', '2026-07-25', 2);
+
+
+INSERT INTO pedidos (cliente_id, data_pedido, status_pedido, valor_total, usuario_id) VALUES
+(1, '2025-08-10', 'Processando', 3000.00, 1),
+(2, '2025-08-12', 'Enviado', 1800.00, 2);
+
+
+INSERT INTO itens_pedido (pedido_id, produto_id, quantidade_litros, preco_unitario) VALUES
+(1, 1, 20.00, 150.00),
+(2, 2, 9.00, 200.00);
+
+
+INSERT INTO monitoramento (instalacao_id, temperatura_entrada, temperatura_saida, consumo_energia_kw, observacoes, usuario_id) VALUES
+(1, 35.00, 45.00, 1200.50, 'Funcionamento normal', 1),
+(2, 36.50, 46.20, 1100.75, 'Consumo dentro da média', 2);
