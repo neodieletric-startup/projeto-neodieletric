@@ -1,0 +1,27 @@
+
+            impactoIA = new ImpactoIA(nomeModelo, consumoEnergia, usaEnergiaRenovavel, aplicacao);
+
+  
+            impactoIA.aplicarOtimizacao(eficiencia);
+
+            System.out.println("\nImpacto cadastrado com sucesso!");
+
+        } catch (InputMismatchException e) {
+            System.out.println("Erro: valor inválido. Tente novamente.");
+            scanner.nextLine(); // limpa buffer
+        }
+    }
+
+    public void exibirImpacto() {
+        if (impactoIA != null) {
+            System.out.println("\n--- Dados do Impacto IA ---");
+            System.out.println("Modelo: " + impactoIA.getNomeModelo());
+            System.out.println("Consumo: " + impactoIA.getConsumoEnergia() + " kWh");
+            System.out.println("Energia Renovável: " + (impactoIA.isUsaEnergiaRenovavel() ? "Sim" : "Não"));
+            System.out.println("Aplicação: " + impactoIA.getAplicacao());
+            System.out.println("Eficiência: " + impactoIA.getEficiencia() + "%");
+        } else {
+            System.out.println("Nenhum impacto cadastrado ainda.");
+        }
+    }
+}
